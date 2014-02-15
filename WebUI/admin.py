@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
-from models import CustomUser
+from models import CustomUser, Trip, Request
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -66,3 +66,5 @@ class MyUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, MyUserAdmin)
 admin.site.unregister(Group)
+admin.site.register(Trip)
+admin.site.register(Request)

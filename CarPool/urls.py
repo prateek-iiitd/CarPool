@@ -17,4 +17,7 @@ urlpatterns = patterns('',
     url(r'^search_trip/$', 'WebUI.views.search_trip'),
     url(r'^get_results/$','WebUI.views.get_results'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^search_results/$', 'WebUI.views.search_results'),
+    url(r'^request_success/$','WebUI.views.request_success'),
+    url(r'^send_request/$','WebUI.views.send_request'),
 )

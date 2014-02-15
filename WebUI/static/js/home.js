@@ -104,9 +104,11 @@ function distanceListener() {
 function postData(){
       radius = 0;
       var url = "/save_journey/";
+      var dataType = 'json';
       if(type == 'r'){
         radius = $('#radius').val();
-          url = "/get_results/"
+          url = "/get_results/";
+          dataType='html';
       }
 
       var data = JSON.stringify({
@@ -120,11 +122,11 @@ function postData(){
         $.ajax({
         type: "POST",
         url: url,
-        dataType: 'json',
+        dataType: dataType,
         data: data,
         success: function (data) {
             if(type=='r'){
-                // display results
+            window.location.href = "/search_results/";
             }
 
         },

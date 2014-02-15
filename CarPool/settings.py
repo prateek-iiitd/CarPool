@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'WebUI',
     'django.contrib.admin',
+    'jsonify'
 )
 
 MIDDLEWARE_CLASSES = (

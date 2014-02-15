@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser)
 from validators import ContactNumberValidator
+import datetime
 # Create your models here.
 
 request_choices = ( ('P','Pending'), ('A','Accepted'), ('D','Declined'))
@@ -102,11 +103,18 @@ class CustomUser(AbstractBaseUser):
         else:
             return False
 
-    def received_requests(self):
-        return Request.objects.filter(trip__user=self)
+    def current_received_requests(self):
+        return Request.objects.filter(trip__user=self, trip__time__gt=datetime.datetime.now()).order_by('trip__time')
 
-    def sent_requests(self):
-        return Request.objects.filter(from_user=self)
+    def current_sent_requests(self):
+        return Request.objects.filter(from_user=self, trip__time__gt=datetime.datetime.now()).order_by('trip__time')
+
+    def previous_received_requests(self):
+        return Request.objects.filter(trip__user=self, trip__time__lt=datetime.datetime.now()).order_by('-trip__time')
+
+    def previous_sent_requests(self):
+        return Request.objects.filter(from_user=self, trip__time__lt=datetime.datetime.now()).order_by('-trip__time')
+
 
 class Trip(models.Model):
     user = models.ForeignKey(CustomUser, null=False, blank=False, related_name='hosts trip')
@@ -115,7 +123,7 @@ class Trip(models.Model):
     travel_distance = models.FloatField(null=False, blank=False)
     start_place = models.TextField(verbose_name="Starting Place", null=False, blank=True)
     end_place = models.TextField(verbose_name="Ending Place", null=False, blank=True)
-    participants = models.ManyToManyField(CustomUser, related_name='are participants in Trip')
+    participants = models.ManyToManyField(CustomUser, related_name='are participants in Trip', blank=True)
 
     def __unicode__(self):
         return self.start_place + " - " + self.end_place + " on " + str(self.time)
@@ -132,9 +140,10 @@ class Request(models.Model):
     status = models.CharField(max_length=20, choices = request_choices)
 
     def __unicode__(self):
-        return self.from_user + " to " + self.trip.user + " - " + self.trip
+        return str(self.from_user) + " to " + str(self.trip.user) + " - " + str(self.trip)
 
     def accept(self):
+        self.trip.participants.add(self.from_user)
         self.status='A'
 
     def decline(self):
