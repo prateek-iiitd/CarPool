@@ -26,22 +26,26 @@
     </div>
     <div class="row">
         <div class="col-lg-2">
-            <legend>CarPool</legend>
+            <legend>Find Trip</legend>
         </div>
-        <div class="col-lg-10 pull-right">
+        <div class="col-lg-offset-8 col-lg-1 ">
             <div style="float: right">
-                <button type="button" class="btn btn-warning"
-                        > Home
-                </button>
-                <button type="button" class="btn btn-warning"
-                        > Sign Out
-                </button>
+                 <form method="get" action="/home">
+                    <button class="btn btn-warning btn-md">Home</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-1">
+            <div  style="float: right">
+                 <form method="get" action="/logout">
+                    <button class="btn btn-warning btn-md">Sign Out</button>
+                </form>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-3">
-                        <p class="help-block" style="font-size: 11px; margin-top: 0">Click and drag anywhere on the path to alter it.</p>
+                        <p class="help-block" style="font-size: 11px; margin-top: 0">We can only guarantee your start and drop points - not the path taken.</p>
 
             <label for="startPlace" class="control-label">Start Location</label>
             <p id="startPlace"></p>
@@ -60,9 +64,19 @@
                 class="form-control input-sm"
                 id="dateStart" name="dateStart" value=""/>
             </div>
+
+            <div class="form-group" >
+                <label for="radius">Radius</label>
+                    <p class="help-block" style="font-size: 11px; margin-top: 0">Distance from your start location you're willing to move to get a ride.</p>
+                    <select id="radius" class="form-control" onchange="" name="radius">
+                            <option value="1">1 km</option>
+                            <option value="2">2 km</option>
+                            <option value="5">5 km</option>
+                    </select>
+            </div>
             <div style="text-align: center">
                 <button type="button" onclick="postData();" class="btn btn-info" id='finalize'>
-                    <span class="glyphicon glyphicon-road"></span> Finalize Route
+                    <span class="glyphicon glyphicon-search"></span> Find Matches
                 </button>
             </div>
         </div>

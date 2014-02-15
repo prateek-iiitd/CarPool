@@ -7,7 +7,7 @@ var directionsService = new google.maps.DirectionsService();
 var geocoder;
 var myroute;
 var distance, distanceText;
-var estimatedTime;
+var estimatedTime, radius;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -96,16 +96,24 @@ function distanceListener() {
 }
 
 function postData(){
+      radius = 0;
+      var url = "/save_journey/";
+      if($('#radius').length != 0){
+        radius = $('#radius').val();
+          url = "/get_results/"
+      }
+
       var data = JSON.stringify({
           cords: myroute,
           time: document.getElementById('dateStart').value,
           start: document.getElementById('startPlace').innerHTML,
           end: document.getElementById('endPlace').innerHTML,
+          radius: radius,
           distance: distance
       });
         $.ajax({
         type: "POST",
-        url: "save_journey/",
+        url: url,
         dataType: 'json',
         data: data,
         success: function (data) {

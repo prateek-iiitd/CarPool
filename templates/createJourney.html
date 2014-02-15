@@ -26,39 +26,48 @@
     </div>
     <div class="row">
         <div class="col-lg-2">
-            <legend>CarPool</legend>
+            <legend>Make Trip</legend>
         </div>
-        <div class="col-lg-10 pull-right">
+        <div class="col-lg-offset-8 col-lg-1 ">
             <div style="float: right">
-                <button type="button" class="btn btn-warning"
-                        > Home
-                </button>
-                <button type="button" class="btn btn-warning"
-                        > Sign Out
-                </button>
+                 <form method="get" action="/home">
+                    <button class="btn btn-warning btn-md">Home</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-1">
+            <div  style="float: right">
+                 <form method="get" action="/logout">
+                    <button class="btn btn-warning btn-md">Sign Out</button>
+                </form>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-3">
-                        <p class="help-block" style="font-size: 11px; margin-top: 0">Click and drag anywhere on the path to alter it.</p>
+            <p class="help-block" style="font-size: 11px; margin-top: 0">Click and drag anywhere on the path to alter
+                it.</p>
 
             <label for="startPlace" class="control-label">Start Location</label>
+
             <p id="startPlace"></p>
 
             <label for="startPlace" class="control-label">End Location</label>
+
             <p id="endPlace"></p>
 
             <label for="distance" class="control-label">Distance</label>
+
             <p id="distance"></p>
 
             <label for="estimate" class="control-label">Estimate Time</label>
+
             <p id="estimate"></p>
 
-            <div class="form-group startDiv" >
+            <div class="form-group startDiv">
                 <label for="dateStart">Start Time</label><input type="datetime"
-                class="form-control input-sm"
-                id="dateStart" name="dateStart" value=""/>
+                                                                class="form-control input-sm"
+                                                                id="dateStart" name="dateStart" value=""/>
             </div>
             <div style="text-align: center">
                 <button type="button" onclick="postData();" class="btn btn-info" id='finalize'>
