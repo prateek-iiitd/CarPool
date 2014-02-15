@@ -87,14 +87,14 @@ class CustomUser(AbstractBaseUser):
 
     def accept_request(self, req):
         if req.trip.user == self:
-            Request.accept()
+            req.accept()
             return True
         else:
             return False
 
     def decline_request(self,req):
         if req.trip.user == self:
-            Request.decline()
+            req.decline()
             return True
         else:
             return False
@@ -114,7 +114,7 @@ class Trip(models.Model):
     end_place = models.TextField(verbose_name="Ending Place", null=False, blank=True)
 
     def __unicode__(self):
-        return self.start_place + " - " + self.last_name + " on " + self.time
+        return self.start_place + " - " + self.end_place + " on " + str(self.time)
 
 class Request(models.Model):
     from_user = models.ForeignKey(CustomUser, null=False, blank=False)
