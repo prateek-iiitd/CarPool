@@ -36,11 +36,16 @@
     <div class="row">
         <div class="col-lg-3">
             <label for="startPlace" class="control-label">Start Location</label>
-
             <p id="startPlace"></p>
-            <label for="startPlace" class="control-label">End Location</label>
 
+            <label for="startPlace" class="control-label">End Location</label>
             <p id="endPlace"></p>
+
+            <label for="distance" class="control-label">Distance</label>
+            <p id="distance"></p>
+
+            <label for="estimate" class="control-label">Estimate Time</label>
+            <p id="estimate"></p>
 
             <div class="form-group startDiv" >
                 <label for="dateStart">Start Time</label><input type="datetime"
@@ -49,7 +54,7 @@
             </div>
             <div style="text-align: center">
                 <button type="button" onclick="postData();" class="btn btn-info" id='finalize'>
-                Finalize Route
+                    <span class="glyphicon glyphicon-road"></span> Finalize Route
                 </button>
             </div>
         </div>
