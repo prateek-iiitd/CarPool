@@ -6,39 +6,6 @@ from validators import ContactNumberValidator
 
 request_choices = ( ('P','Pending'), ('A','Accepted'), ('D','Declined'))
 
-
-class Trip(models.Model):
-    user = models.ForeignKey(CustomUser, null=False, blank=False)
-    time = models.DateTimeField(verbose_name='Time of Journey', blank=False, null=False)
-    cluster = models.TextField(null=False, blank=False)
-    travel_distance = models.FloatField(null=False, blank=False)
-    start_place = models.TextField(verbose_name="Starting Place", null=False, blank=True)
-    end_place = models.TextField(verbose_name="Ending Place", null=False, blank=True)
-
-    def __unicode__(self):
-        return self.start_place + " - " + self.last_name + " on " + self.time
-
-
-class Request(models.Model):
-    from_user = models.ForeignKey(CustomUser, null=False, blank=False)
-    trip = models.ForeignKey(Trip, null=False, blank=False)
-    start_lat = models.FloatField(null=False, blank=False)
-    start_lng = models.FloatField(null=False, blank=False)
-    end_lat = models.FloatField(null=False, blank=False)
-    end_lng = models.FloatField(null=False, blank=False)
-    start_place = models.TextField(verbose_name="Pick-up Location",null=False, blank=True)
-    end_place = models.TextField(verbose_name="Drop-off Location", null=False, blank=True)
-    status = models.CharField(max_length=20, choices = request_choices)
-
-    def __unicode__(self):
-        return self.from_user + " to " + self.trip.user + " - " + self.trip
-
-    def accept(self):
-        self.status='A'
-
-    def decline(self):
-        self.status='D'
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
@@ -137,3 +104,34 @@ class CustomUser(AbstractBaseUser):
 
     def sent_requests(self):
         return Request.objects.filter(from_user=self)
+
+class Trip(models.Model):
+    user = models.ForeignKey(CustomUser, null=False, blank=False)
+    time = models.DateTimeField(verbose_name='Time of Journey', blank=False, null=False)
+    cluster = models.TextField(null=False, blank=False)
+    travel_distance = models.FloatField(null=False, blank=False)
+    start_place = models.TextField(verbose_name="Starting Place", null=False, blank=True)
+    end_place = models.TextField(verbose_name="Ending Place", null=False, blank=True)
+
+    def __unicode__(self):
+        return self.start_place + " - " + self.last_name + " on " + self.time
+
+class Request(models.Model):
+    from_user = models.ForeignKey(CustomUser, null=False, blank=False)
+    trip = models.ForeignKey(Trip, null=False, blank=False)
+    start_lat = models.FloatField(null=False, blank=False)
+    start_lng = models.FloatField(null=False, blank=False)
+    end_lat = models.FloatField(null=False, blank=False)
+    end_lng = models.FloatField(null=False, blank=False)
+    start_place = models.TextField(verbose_name="Pick-up Location",null=False, blank=True)
+    end_place = models.TextField(verbose_name="Drop-off Location", null=False, blank=True)
+    status = models.CharField(max_length=20, choices = request_choices)
+
+    def __unicode__(self):
+        return self.from_user + " to " + self.trip.user + " - " + self.trip
+
+    def accept(self):
+        self.status='A'
+
+    def decline(self):
+        self.status='D'
