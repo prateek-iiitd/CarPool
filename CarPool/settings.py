@@ -109,3 +109,4 @@ STATICFILES_FINDERS = (
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
 API_KEY = 'AIzaSyBiFQrXNl8ixnT8ElXRragVnx1_XL8EBEc'
+AUTH_USER_MODEL = 'WebUI.CustomUser'
