@@ -8,6 +8,8 @@ var geocoder;
 var myroute;
 var distance, distanceText;
 var estimatedTime, radius;
+var type='';
+var circle;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -73,6 +75,10 @@ function distanceListener() {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
                 document.getElementById('startPlace').innerHTML = results[1].formatted_address;
+                if(type=='r'){
+                    radius = $('#radius').val();
+                    drawCircle(results[1].geometry.location, radius);
+                }
             } else {
                 alert('No results found');
             }
@@ -98,7 +104,7 @@ function distanceListener() {
 function postData(){
       radius = 0;
       var url = "/save_journey/";
-      if($('#radius').length != 0){
+      if(type == 'r'){
         radius = $('#radius').val();
           url = "/get_results/"
       }
@@ -117,11 +123,31 @@ function postData(){
         dataType: 'json',
         data: data,
         success: function (data) {
+            if(type=='r'){
+                // display results
+            }
 
         },
         error: function () {
             console.log('Error getting options list...')
         }
-    })
+    });
     console.log(data);
 }
+
+function drawCircle(loc, r) {
+        if (circle != undefined)
+            circle.setMap(null);
+        var radius = parseInt(r)*1000;
+        var options = {
+            strokeColor: '#800000',
+            strokeOpacity: 1.0,
+            strokeWeight: 1,
+            fillColor: '#C64D45',
+            fillOpacity: 0.5,
+            map: map,
+            center: loc,
+            radius: radius
+        };
+        circle = new google.maps.Circle(options);
+    }

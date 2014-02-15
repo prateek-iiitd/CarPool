@@ -108,7 +108,7 @@ STATICFILES_FINDERS = (
 )
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
-API_KEY = 'AIzaSyBiFQrXNl8ixnT8ElXRragVnx1_XL8EBEc'
+API_KEY = 'AIzaSyAx9s1E5g-LEUnBjRk2VrRT78bCRcbD3EM'
 AUTH_USER_MODEL = 'WebUI.CustomUser'
 LOGIN_URL = '/welcome/'
 LOGIN_REDIRECT_URL = '/home/'

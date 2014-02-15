@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^save_journey/$', 'WebUI.views.save_journey'),
     url(r'^logout/$', 'WebUI.views.logout_view'),
     url(r'^search_trip/$', 'WebUI.views.search_trip'),
-    url(r'^get_results/$','WebUI.views.get_results'),
+   # url(r'^get_results/$','WebUI.views.get_results'),
     url(r'^admin/', include(admin.site.urls)),
 )
