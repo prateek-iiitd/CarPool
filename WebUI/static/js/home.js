@@ -6,6 +6,8 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var geocoder;
 var myroute;
+var distance;
+var estimatedTime;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -51,6 +53,8 @@ function initRoute() {
 
 function getStartEnd() {
     var result = directionsDisplay.getDirections();
+    distance = result.routes[0].legs[0].distance.value;
+    estimatedTime = result.routes[0].legs[0].duration.text;
     myroute = result.routes[0].overview_path;
     var len = myroute.length;
     var startPos = myroute[0];
@@ -93,7 +97,8 @@ function postData(){
           cords: myroute,
           time: document.getElementById('dateStart').value,
           start: document.getElementById('startPlace').innerHTML,
-          end: document.getElementById('endPlace').innerHTML
+          end: document.getElementById('endPlace').innerHTML,
+          distance: distance,
       });
         $.ajax({
         type: "POST",
