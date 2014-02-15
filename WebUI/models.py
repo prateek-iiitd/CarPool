@@ -7,7 +7,7 @@ from validators import ContactNumberValidator
 request_choices = ( ('P','Pending'), ('A','Accepted'), ('D','Declined'))
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, first_name, last_name, contact_number, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -17,6 +17,9 @@ class CustomUserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
+            first_name = first_name,
+            last_name = last_name,
+            contact_number = contact_number
         )
 
         user.set_password(password)
@@ -106,12 +109,13 @@ class CustomUser(AbstractBaseUser):
         return Request.objects.filter(from_user=self)
 
 class Trip(models.Model):
-    user = models.ForeignKey(CustomUser, null=False, blank=False)
+    user = models.ForeignKey(CustomUser, null=False, blank=False, related_name='hosts trip')
     time = models.DateTimeField(verbose_name='Time of Journey', blank=False, null=False)
     cluster = models.TextField(null=False, blank=False)
     travel_distance = models.FloatField(null=False, blank=False)
     start_place = models.TextField(verbose_name="Starting Place", null=False, blank=True)
     end_place = models.TextField(verbose_name="Ending Place", null=False, blank=True)
+    participants = models.ManyToManyField(CustomUser, related_name='are participants in Trip')
 
     def __unicode__(self):
         return self.start_place + " - " + self.end_place + " on " + str(self.time)
