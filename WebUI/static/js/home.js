@@ -126,7 +126,10 @@ function postData(){
         data: data,
         success: function (data) {
             if(type=='r'){
-            window.location.href = "/search_results/";
+                window.location.href = "/search_results/";
+            }
+            else{
+                window.location.href = '/trip_success/';
             }
 
         },

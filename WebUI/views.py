@@ -169,6 +169,10 @@ def request_success(request):
 
 
 @login_required
+def trip_success(request):
+    return render(request, 'tripsuccess.html')
+
+@login_required
 def send_request(request):
     if request.is_ajax() and request.method == 'POST':
         # try:
@@ -191,3 +195,49 @@ def send_request(request):
         #     return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(['POST'])
+
+
+@login_required
+def sent_requests(request):
+    if request.method=='GET':
+        current_sent = request.user.current_sent_requests()
+        curr = current_sent.values('id','status','trip__user__first_name','trip__user__last_name','start_place','end_place','trip__time')
+        old_sent = request.user.previous_sent_requests()
+        old = old_sent.values('id','status','trip__user__first_name','trip__user__last_name','start_place','end_place','trip__time')
+
+        return render(request,'sentrequests.html',{'current':curr, 'expired':old})
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+def received_requests(request):
+    if request.method=='GET':
+        current_received = request.user.current_received_requests()
+        curr = current_received.values('id','status','trip__user__first_name','trip__user__last_name','start_place','end_place','trip__time')
+
+        return render(request,'receivedrequests.html',{'current':curr})
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+@login_required
+def accept_requests(request):
+    if request.method=='POST':
+        res = json.loads(request.body)
+        ids = res['selected']
+        print ids
+        for id in ids:
+            req = Request.objects.get(pk=id)
+            print request.user.accept_request(req)
+
+        return HttpResponse()
+
+@login_required
+def decline_requests(request):
+    if request.method=='POST':
+        res = json.loads(request.body)
+        ids = res['selected']
+        for id in ids:
+            req = Request.objects.get(pk=id)
+            request.user.decline_request(req)
+
+        return HttpResponse()

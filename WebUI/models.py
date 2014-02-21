@@ -104,13 +104,13 @@ class CustomUser(AbstractBaseUser):
             return False
 
     def current_received_requests(self):
-        return Request.objects.filter(trip__user=self, trip__time__gt=datetime.datetime.now()).order_by('trip__time')
+        return Request.objects.filter(trip__user=self, trip__time__gt=datetime.datetime.now(),status='P').order_by('trip__time')
 
     def current_sent_requests(self):
         return Request.objects.filter(from_user=self, trip__time__gt=datetime.datetime.now()).order_by('trip__time')
 
     def previous_received_requests(self):
-        return Request.objects.filter(trip__user=self, trip__time__lt=datetime.datetime.now()).order_by('-trip__time')
+        return Request.objects.filter(trip__user=self, trip__time__lt=datetime.datetime.now(),status='P').order_by('-trip__time')
 
     def previous_sent_requests(self):
         return Request.objects.filter(from_user=self, trip__time__lt=datetime.datetime.now()).order_by('-trip__time')
@@ -145,6 +145,8 @@ class Request(models.Model):
     def accept(self):
         self.trip.participants.add(self.from_user)
         self.status='A'
+        self.save()
 
     def decline(self):
         self.status='D'
+        self.save()
